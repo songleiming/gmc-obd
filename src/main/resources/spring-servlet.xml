@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd    
+      http://www.springframework.org/schema/context    
+      http://www.springframework.org/schema/context/spring-context.xsd    
+      http://www.springframework.org/schema/mvc    
+      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<!-- 注解扫描的包 -->
+	<context:component-scan base-package="com.jqyd.gmc.obd.*" />
+
+
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=utf-8</value>
+						<value>text/xml;charset=utf-8</value>
+						<value>text/html;charset=utf-8</value>
+						<value>text/json;charset=utf-8</value>
+						<value>application/json;charset=utf-8</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean> -->
+
+	<mvc:annotation-driven />
+
+	<!-- 静态资源访问，方案1 -->
+	<mvc:resources location="/plug-in/img/" mapping="/lug-in/img/**" />
+	<mvc:resources location="/plug-in/js/" mapping="/lug-in/js/**" />
+
+
+	<!-- 视图解释类 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/webpages"></property>
+		<!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+
+	<bean id="initPosition" class="com.jqyd.gmc.obd.init.InitPositionSave" init-method="init"></bean>
+	<bean id="initPositionPhoto" class="com.jqyd.gmc.obd.init.InitPositionPhotoSave" init-method="init"></bean>
+	<bean id="initJobInfo" class="com.jqyd.gmc.obd.init.InitJobInfoSave" init-method="init"></bean>
+	<bean id="initTerminal" class="com.jqyd.gmc.obd.init.InitTerminalSave" init-method="init"></bean>
+	
+</beans>

@@ -7,26 +7,165 @@
 	<packaging>war</packaging>
 	<name>gmc-obd</name>
 	<description>GMC</description>
+	<dependencies>
+		<dependency>
+			<groupId>com.jiuqi.mobile</groupId>
+			<artifactId>core</artifactId>
+			<scope>system</scope>
+			<version>1.0.0</version>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/core-1.0.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.jiuqi.mobile.core</groupId>
+			<artifactId>service</artifactId>
+<!-- 			<scope>system</scope> -->
+			<version>1.0.0</version>
+<!-- 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/service-1.0.0.jar</systemPath> -->
+		</dependency>
+		<!-- 加入emc接口jar包 -->
+		<dependency>
+            <groupId>com.jiuqi.mobile</groupId>
+            <artifactId>emc-interface</artifactId>
+			<scope>system</scope>
+            <version>0.0.1-SNAPSHOT</version>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/emc-interface-0.0.1-SNAPSHOT.jar</systemPath>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.jiuqi.mobile</groupId>
+            <artifactId>njucintf</artifactId>
+			<scope>system</scope>
+            <version>0.0.1-SNAPSHOT</version>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/njucintf-0.0.1-SNAPSHOT.jar</systemPath>
+        </dependency>
+		<!-- 加入位置系统接口jar包 -->
+		<dependency>
+			<groupId>com.jiuqi.mobile</groupId>
+			<artifactId>emc-pos</artifactId>
+			<scope>system</scope>
+			<version>0.0.1-SNAPSHOT</version>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/emc-posintf-0.0.1-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<!-- 加入spring mvc依赖包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>3.2.3.RELEASE</version>
+		</dependency>
+		<!-- 加入orm依赖包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>3.2.3.RELEASE</version>
+		</dependency>
+		<!-- 加入spring测试依赖包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.2.3.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- 加入hibernate依赖包 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.2.2.Final</version>
+		</dependency>
+		<!-- 加入junit依赖包 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- 加入mysql驱动依赖包 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.25</version>
+		</dependency>
+		<!-- 加入slf4j依赖包 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<!-- 加入jstl依赖包 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.2.1-b03</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<!--gson包 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>default-tools.jar</id>
+			<activation>
+				<property>
+					<name>java.vendor</name>
+					<value>Sun Microsystems Inc.</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+					<version>1.6.0</version>
+					<scope>system</scope>
+					<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 	<build>
+		<finalName>gmc-obd</finalName>
+
 		<plugins>
+
+			<!-- 配置Maven插件(mvn jetty:run可以运行项目) -->
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.15.v20160210</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<httpConnector>
+						<port>8181</port>
+					</httpConnector>
+					<stopKey>foo</stopKey>
+					<stopPort>9999</stopPort>
+					<webApp>
+						<contextPath>/${project.artifactId}</contextPath>
+						<defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor>
+					</webApp>
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
+				<version>2.3</version>
 				<configuration>
-					<warSourceDirectory>WebContent</warSourceDirectory>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-	</dependencies>
 </project>
